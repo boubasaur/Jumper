@@ -5,12 +5,10 @@ from sys import exit
 from player import *
 from obstacles import *
 
-
 def display_score():
-
     global score
     score_surface = game_font.render(f'Score: {score}', False, (73, 93, 130))
-    score_rect = score_surface.get_rect(center=(400, 50))
+    score_rect = score_surface.get_rect(center=(400, 150))
     screen.blit(score_surface, score_rect)
     return score
 
@@ -46,41 +44,19 @@ peanut_group = pygame.sprite.Group()
 background_surface = pygame.image.load('graphics/School.jpg').convert()
 background_surface = pygame.transform.scale(background_surface, (800, 500))
 
-book_1 = pygame.image.load('graphics/Book.png').convert_alpha()
-book_2 = pygame.image.load('graphics/Book2.png').convert_alpha()
-book_1 = pygame.transform.scale(book_1, (25, 30))
-book_2 = pygame.transform.scale(book_2, (25, 30))
-book_frames = [book_1, book_2]
-book_index = 0
-book_surface = book_frames[book_index]
-book_rect = book_surface.get_rect(bottomleft=(800, 200))
-
-peanut_1 = pygame.image.load('graphics/Peanut.png').convert_alpha()
-peanut_1 = pygame.transform.scale(peanut_1, (30, 30))
-peanut_2 = pygame.image.load('graphics/Peanut2.png').convert_alpha()
-peanut_2 = pygame.transform.scale(peanut_2, (30, 30))
-peanut_frames = [peanut_1, peanut_2]
-peanut_index = 0
-peanut_surface = peanut_frames[peanut_index]
-peanut_rect = peanut_surface.get_rect(midbottom=(800, 200))
-
-# obstacle_rect_list = []
-
-player1 = pygame.image.load('graphics/player/1.png').convert_alpha()
-player2 = pygame.image.load('graphics/player/2.png').convert_alpha()
-player3 = pygame.image.load('graphics/player/3.png').convert_alpha()
-player4 = pygame.image.load('graphics/player/4.png').convert_alpha()
-player_walk = [player1, player2, player3, player4]
-player_index = 0
-player_jump = player4
-
-player = player_walk[player_index]
-player_rect = player.get_rect(midbottom=(50, 200))
-player_gravity = 0
-
 player_stand = pygame.image.load('graphics/player/stand.png').convert_alpha()
 player_stand = pygame.transform.scale(player_stand, (200, 200))
 player_stand_rect = player_stand.get_rect(center=(400, 200))
+
+peanut_1 = pygame.image.load('graphics/Peanut.png').convert_alpha()
+peanut_2 = pygame.image.load('graphics/Peanut2.png').convert_alpha()
+peanut_1 = pygame.transform.scale(peanut_1, (50, 50))
+peanut_2 = pygame.transform.scale(peanut_2, (50, 50))
+
+book_1 = pygame.image.load('graphics/Book.png').convert_alpha()
+book_2 = pygame.image.load('graphics/Book2.png').convert_alpha()
+book_1 = pygame.transform.scale(book_1, (50, 50))
+book_2 = pygame.transform.scale(book_2, (50, 50))
 
 game_name = game_font.render('Anya Forger Loves Peanuts', False, 'Black')
 game_name_rect = game_name.get_rect(center=(400, 100))
@@ -104,41 +80,16 @@ while True:
             pygame.quit()
             exit()
 
-        if game_active:
-            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom >= 200:
-                # player_gravity = -300
-                pass
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and player_rect.bottom >= 200:
-                    pass
-                    # player_gravity = -300
-        else:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                game_active = True
-                book_rect.left = 800
-                start_time = int(pygame.time.get_ticks() / 1000)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            game_active = True
 
         if game_active:
             if event.type == obstacle_timer:
                 item_choice = choice(['book', 'peanut'])
                 if item_choice == 'book':
-                    book_group.add(Obstacle('book'))
+                    book_group.add(Obstacle(book_1, book_2))
                 elif item_choice == 'peanut':
-                    peanut_group.add(Obstacle('peanut'))
-
-            if event.type == book_animation_timer:
-                if book_index == 0:
-                    book_index = 1
-                else:
-                    book_index = 0
-                book_surface = book_frames[book_index]
-
-            if event.type == peanut_animation_timer:
-                if peanut_index == 0:
-                    peanut_index = 1
-                else:
-                    peanut_index = 0
-                peanut_surface = peanut_frames[peanut_index]
+                    peanut_group.add(Obstacle(peanut_1, peanut_2))
 
     if game_active:
         screen.blit(background_surface, (0, 0))
@@ -157,11 +108,9 @@ while True:
     else:
         screen.fill((73, 93, 130))
         screen.blit(player_stand, player_stand_rect)
-        # obstacle_rect_list.clear()
         player_gravity = 0
 
-        score_message = game_font.render(
-            f'Your score: {score}', False, 'Black')
+        score_message = game_font.render(f'Your score: {score}', False, 'Black')
         score_message_rect = score_message.get_rect(center=(400, 350))
         screen.blit(game_name, game_name_rect)
 
