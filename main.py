@@ -27,7 +27,7 @@ def collision_sprite():
 
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
-pygame.display.set_caption('Runner')
+pygame.display.set_caption('Jumper')
 clock = pygame.time.Clock()
 game_font = pygame.font.Font('font/dogicabold.ttf', 25)
 game_active = False
@@ -84,7 +84,7 @@ while True:
 
         if game_active:
             if event.type == obstacle_timer:
-                item_choice = choice(['book', 'peanut'])
+                item_choice = choice(['book', 'book', 'peanut'])
                 if item_choice == 'book':
                     book_group.add(Obstacle(book_1, book_2))
                 elif item_choice == 'peanut':
