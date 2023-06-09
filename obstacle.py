@@ -1,7 +1,6 @@
 import pygame
 from random import randint, choice
 
-
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, sprite1, sprite2):
         super().__init__()
@@ -19,11 +18,11 @@ class Obstacle(pygame.sprite.Sprite):
             self.animation_index = 0
         self.image = self.frames[int(self.animation_index)]
 
+    def destroy(self):
+        if self.rect.x <= -100:
+            self.kill()
+    
     def update(self):
         self.animation_state()
         self.rect.x -= 10
         self.destroy()
-
-    def destroy(self):
-        if self.rect.x <= -100:
-            self.kill()

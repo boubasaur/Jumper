@@ -3,7 +3,7 @@ import pygame
 from sys import exit
 
 from player import *
-from obstacles import *
+from obstacle import *
 
 def display_score():
     global score
@@ -11,7 +11,6 @@ def display_score():
     score_rect = score_surface.get_rect(center=(400, 150))
     screen.blit(score_surface, score_rect)
     return score
-
 
 def collision_sprite():
     global score
