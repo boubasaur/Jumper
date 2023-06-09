@@ -7,20 +7,23 @@ from obstacles import *
 
 
 def display_score():
-    current_time = int(pygame.time.get_ticks() / 1000) - start_time
-    score_surface = game_font.render(
-        f'Score: {current_time}', False, (73, 93, 130))
+
+    global score
+    score_surface = game_font.render(f'Score: {score}', False, (73, 93, 130))
     score_rect = score_surface.get_rect(center=(400, 50))
     screen.blit(score_surface, score_rect)
-    return current_time
+    return score
 
 
 def collision_sprite():
+    global score
     if pygame.sprite.spritecollide(player_sprite.sprite, book_group, False):
         book_group.empty()
         peanut_group.empty()
+        score = 0
         return False
     elif pygame.sprite.spritecollide(player_sprite.sprite, peanut_group, True):
+        score += 1
         return True
     return True
 
